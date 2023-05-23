@@ -1,7 +1,7 @@
 #  Resource Group Name
 variable "resourceGroupName" {
   type    = string
-  default = "RG-VM"
+  default = "RG-VM-ABL"
 }
 
 variable "azureRegion" {
@@ -9,7 +9,7 @@ variable "azureRegion" {
   # To get names of Azure Region : az account list-locations
   # To check support of Availability Zone in the Azure Region see https://docs.microsoft.com/bs-latn-ba/azure/availability-zones/az-overview
   type    = string
-  default = "westus"
+  default = "westeurope"
 }
 
 variable "vnetName" {
@@ -43,4 +43,5 @@ variable "vmUser" {
     type = string
     default = "adminuser"  
 }
+
 
