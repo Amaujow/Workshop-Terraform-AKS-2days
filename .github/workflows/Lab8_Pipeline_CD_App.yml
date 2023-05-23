@@ -29,14 +29,11 @@ jobs:
         run: |
           az aks get-credentials --resource-group ${{ env.RG_NAME }} --name ${{ env.CLUSTER_NAME }}
   
-      - name: Create ACR secret
-        run: |
-          kubectl create secret generic acr-secret --from-literal=docker-server=${{ env.REGISTRY_NAME}}.azurecr.io --from-literal=docker-username=${{ env.REGISTRY_USERNAME}} --from-literal=docker-password=${{ secrets.REGISTRY_PASSWORD }} --namespace coolapi
-    
       - name: Deploiement application dans AKS
         run: |      
           cd Kubernetes/Manifests/coolapi          
           kubectl apply -f 1_namespace.yml
+          kubectl create secret docker-registry acr-secret -n coolapi --docker-server=${{ env.REGISTRY_NAME}}.azurecr.io --docker-username=${{ env.REGISTRY_USERNAME}} --docker-password=${{ secrets.REGISTRY_PASSWORD }}
           kubectl apply -f 2_deployment.yml
           kubectl apply -f 3_service.yml
 
