@@ -31,7 +31,7 @@ jobs:
   
       - name: Create ACR secret
         run: |
-          kubectl create secret generic acr-secret --from-literal=username=${{ env.REGISTRY_USERNAME}} --from-literal=password=${{ secrets.REGISTRY_PASSWORD }}
+          kubectl create secret generic acr-secret --from-literal=docker-server=${{ env.REGISTRY_NAME}}.azurecr.io --from-literal=docker-username=${{ env.REGISTRY_USERNAME}} --from-literal=docker-password=${{ secrets.REGISTRY_PASSWORD }} --namespace coolapi
     
       - name: Deploiement application dans AKS
         run: |      
