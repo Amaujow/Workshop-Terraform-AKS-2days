@@ -4,9 +4,10 @@ on:
   workflow_dispatch:
 
 env: # variables
-  RG_NAME: "RG-AKSCluster"
+  RG_NAME: "RG-AKSCluster-ABL"
   CLUSTER_NAME: "AKS-000" 
-  REGISTRY_NAME: "acrpierrc007"
+  REGISTRY_NAME: "acrabl2022"
+  REGISTRY_USERNAME: "acrabl2022"
   APP_NAME: "coolapi"
   IMAGE_VERSION: "1.0.0"
 
@@ -27,7 +28,11 @@ jobs:
       - name: Get AKS Credentials
         run: |
           az aks get-credentials --resource-group ${{ env.RG_NAME }} --name ${{ env.CLUSTER_NAME }}
-
+  
+      - name: Create ACR secret
+        run: |
+          kubectl create secret generic acr-secret --from-literal=username=${{ env.REGISTRY_USERNAME}} --from-literal=password=${{ secrets.REGISTRY_PASSWORD }}
+    
       - name: Deploiement application dans AKS
         run: |      
           cd Kubernetes/Manifests/coolapi          
